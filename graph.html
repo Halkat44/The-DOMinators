@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Squid Game Participant Tracker</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    header {
+    background: rgba(46, 17, 35, 0.8);
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(255, 8, 68, 0.3);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Menu Styling */
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.menu li {
+    display: inline;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.menu a:hover {
+    color: #ff007f;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+/* Menu Toggle Button */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.menu-toggle .bar {
+    width: 100%;
+    height: 3px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+/* Mobile Responsive Menu */
+@media (max-width: 768px) {
+    .menu {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+    }
+
+    .menu.show {
+        max-height: 300px;
+    }
+
+    .menu li {
+        text-align: center;
+        padding: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    /* Animate the toggle button */
+    .menu-toggle.active .bar:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .menu-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active .bar:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+}
+    :root {
+      --primary-color: #FF0844;
+      --secondary-color: #45B649;
+      --background-color: #000;
+      --text-color: #ffffff;
+      --accent-color: #FFD700;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      /* background: url('https://wallpaperaccess.com/full/6347375.jpg') no-repeat center center fixed; */
+      background: linear-gradient(135deg, rgba(153, 50, 125, 0.9), rgba(0, 0, 0, 0.95));
+      background-size: cover;
+      color: var(--text-color);
+      text-align: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(255, 8, 68, 0.6);
+      max-width: 600px;
+      width: 100%;
+    }
+
+    h1 {
+      color: var(--accent-color);
+      margin-bottom: 20px;
+      text-shadow: 0 0 10px var(--accent-color);
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .stat-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+      width: 48%;
+      transition: transform 0.3s ease;
+    }
+
+    .stat-item:hover {
+      transform: scale(1.1);
+    }
+
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <!-- Menu Toggle Button -->
+      <button class="menu-toggle" onclick="toggleMenu()">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+      <!-- Menu Items -->
+      <ul class="menu">
+        <li><a href="#">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="graph.html">Graph</a></li>
+        <li><a href="login.html">Login</a></li>
+        <li><a href="registration.html">Register</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>Statistics & Insights Panel</h1>
+    <div class="stats">
+      <div class="stat-item">
+        <h2>Participants Left</h2>
+        <p id="participants-left">456</p>
+      </div>
+      <div class="stat-item">
+        <h2>Elimination Percentage</h2>
+        <p id="elimination-percentage">20%</p>
+      </div>
+    </div>
+    <div class="chart-container">
+      <canvas id="survivalChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    let participantsLeft = 456;
+    let eliminationPercentage = 20;
+
+    const participantsLeftElement = document.getElementById('participants-left');
+    const eliminationPercentageElement = document.getElementById('elimination-percentage');
+
+    const ctx = document.getElementById('survivalChart').getContext('2d');
+    const survivalChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Round 1', 'Round 2', 'Round 3', 'Round 4', 'Round 5', 'Round 6'],
+        datasets: [{
+          label: 'Participants Left',
+          data: [456, 400, 350, 300, 200, 100],
+          borderColor: '#ff0844',
+          backgroundColor: 'rgba(255, 8, 68, 0.2)',
+          fill: true,
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Participants'
+            }
+          },
+          x: {
+            title: {
+              display: true,
+              text: 'Rounds'
+            }
+          }
+        }
+      }
+    });
+
+    function updateData(newParticipantsLeft, newEliminationPercentage) {
+      participantsLeft = newParticipantsLeft;
+      eliminationPercentage = newEliminationPercentage;
+
+      participantsLeftElement.textContent = participantsLeft;
+      eliminationPercentageElement.textContent = `${eliminationPercentage}%`;
+      survivalChart.data.datasets[0].data.push(participantsLeft);
+      survivalChart.update();
+    }
+
+    setTimeout(() => {
+      updateData(400, 25);
+    }, 5000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squid Game - Secrets</title>
+    <style>
+        header {
+    background: rgba(46, 17, 35, 0.8);
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(255, 8, 68, 0.3);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Menu Styling */
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.menu li {
+    display: inline;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.menu a:hover {
+    color: #ff007f;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+/* Menu Toggle Button */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.menu-toggle .bar {
+    width: 100%;
+    height: 3px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+/* Mobile Responsive Menu */
+@media (max-width: 768px) {
+    .menu {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+    }
+
+    .menu.show {
+        max-height: 300px;
+    }
+
+    .menu li {
+        text-align: center;
+        padding: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    /* Animate the toggle button */
+    .menu-toggle.active .bar:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .menu-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active .bar:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+}
+        :root {
+            --primary-color: #e60073;
+            --secondary-color: #ff0077;
+            --bg-dark: radial-gradient(circle, var(--primary-color) 10%, #000 80%);
+            --text-dark: #fff;
+            --card-bg-dark: rgba(20, 20, 20, 0.9);
+            --input-bg-dark: #000;
+        }
+
+        body[data-theme="light"] {
+            --bg-dark: radial-gradient(circle, #ffffff 10%, #e6e6e6 80%);
+            --text-dark: #000;
+            --card-bg-dark: rgba(255, 255, 255, 0.9);
+            --input-bg-dark: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background: var(--bg-dark);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .easter-egg-section {
+            position: fixed;
+            bottom: -300px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+        }
+
+        .recruiter-card {
+            background: var(--card-bg-dark);
+            border: 2px solid var(--primary-color);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 0 30px var(--primary-color);
+            max-width: 300px;
+            text-align: center;
+            position: relative;
+        }
+
+        .prize-vault {
+            background: var(--card-bg-dark);
+            border: 2px solid var(--primary-color);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .prize-amount {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            text-shadow: 0 0 10px var(--primary-color);
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .coin {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: gold;
+            border-radius: 50%;
+            animation: coinFall 1s linear;
+            opacity: 0;
+        }
+
+        @keyframes coinFall {
+            0% { transform: translateY(-100px); opacity: 1; }
+            100% { transform: translateY(100px); opacity: 0; }
+        }
+
+        .hidden-card {
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .hidden-card.revealed {
+            opacity: 1;
+            transform: scale(1);
+            box-shadow: 0 0 30px var(--primary-color);
+        }
+
+        .konami-input {
+            opacity: 0;
+            position: absolute;
+            top: -100px;
+        }
+
+        .vault-glow {
+            animation: vaultPulse 2s infinite;
+        }
+
+        @keyframes vaultPulse {
+            0%, 100% { box-shadow: 0 0 10px var(--primary-color); }
+            50% { box-shadow: 0 0 30px var(--primary-color); }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <header>
+        <nav>
+          <!-- Menu Toggle Button -->
+          <button class="menu-toggle" onclick="toggleMenu()">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </button>
+          <!-- Menu Items -->
+          <ul class="menu">
+            <li><a href="#">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="graph.html">Graph</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li><a href="registration.html">Register</a></li>
+          </ul>
+        </nav>
+      </header>
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    <div class="container">
+        <!-- Existing content remains same -->
+
+        <!-- New Easter Egg Section -->
+        <section class="content-section">
+            <h2 class="section-title">Secret Vault</h2>
+            <div class="game-grid">
+                <div class="prize-vault vault-glow" id="prizeVault">
+                    <h3>Prize Pool Accumulator</h3>
+                    <div class="prize-amount">₩0</div>
+                    <p>Click to collect funds</p>
+                </div>
+                <div class="game-card hidden-card" id="mysteryCard">
+                    <h3>???</h3>
+                    <p>Discover hidden secrets</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hidden Recruiter Card -->
+        <div class="easter-egg-section" id="recruiterCard">
+            <div class="recruiter-card">
+                <h3>Recruitment Invitation</h3>
+                <p>Need financial assistance?<br>Contact us:</p>
+                <p style="color: var(--primary-color); font-size: 1.5rem;">☎ 456-0456-456</p>
+                <p>VIP Code: PLAYER001</p>
+            </div>
+        </div>
+
+        <input type="text" class="konami-input" id="konamiInput">
+    </div>
+
+    <script>
+        // Theme Toggle
+       // Theme Toggle
+function toggleTheme() {
+    const body = document.body;
+    body.dataset.theme = body.dataset.theme === 'light' ? 'dark' : 'light';
+}
+
+// Prize Vault Logic
+let prizeTotal = 0;
+const targetPrize = 45000000000; // 45 billion
+const vault = document.getElementById('prizeVault');
+const display = vault.querySelector('.prize-amount');
+
+vault.addEventListener('click', () => {
+    if (prizeTotal < targetPrize) {
+        prizeTotal += 100000000;
+        display.textContent = `₩${prizeTotal.toLocaleString()}`;
+        spawnCoin();
+    }
+});
+
+function spawnCoin() {
+    const coin = document.createElement('div');
+    coin.className = 'coin';
+    coin.style.left = `${Math.random() * 80 + 10}%`;
+    vault.appendChild(coin);
+    setTimeout(() => coin.remove(), 1000);
+}
+
+// Auto-increment prize
+const prizeInterval = setInterval(() => {
+    if (prizeTotal < targetPrize) {
+        prizeTotal += 456789;
+        display.textContent = `₩${prizeTotal.toLocaleString()}`;
+    } else {
+        // Stop the interval when prizeTotal reaches or exceeds 45 billion
+        clearInterval(prizeInterval);
+        display.textContent = `₩${targetPrize.toLocaleString()}`; // Ensure it shows exactly 45 billion
+    }
+}, 100);
+
+// Konami Code Handler
+const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 
+                    'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+let konamiProgress = 0;
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === konamiCode[konamiProgress]) {
+        konamiProgress++;
+        if (konamiProgress === konamiCode.length) {
+            showRecruiterCard();
+            konamiProgress = 0;
+        }
+    } else {
+        konamiProgress = 0;
+    }
+});
+
+function showRecruiterCard() {
+    const card = document.getElementById('recruiterCard');
+    card.style.bottom = '20px';
+    setTimeout(() => card.style.bottom = '-300px', 5000);
+}
+
+// Mystery Card Logic
+const mysteryCard = document.getElementById('mysteryCard');
+const secrets = [
+    "The VIPs are always watching",
+    "Red light... Green light...",
+    "Player 001 knows the truth",
+    "Dalgona never breaks",
+    "The final game awaits"
+];
+
+mysteryCard.addEventListener('click', () => {
+    mysteryCard.classList.add('revealed');
+    setTimeout(() => {
+        alert(secrets[Math.floor(Math.random() * secrets.length)]);
+        mysteryCard.classList.remove('revealed');
+    }, 500);
+});
+
+// Initialize vault display
+setTimeout(() => {
+    vault.style.opacity = '1';
+    vault.style.transform = 'scale(1)';
+}, 1000);
+    </script>
+</body>
+</html>

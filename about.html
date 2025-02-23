@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Squid Game - About</title>
+    <style>
+        header {
+    background: rgba(46, 17, 35, 0.8);
+    padding: 15px 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(255, 8, 68, 0.3);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Menu Styling */
+.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.menu li {
+    display: inline;
+}
+
+.menu a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 15px;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.menu a:hover {
+    color: #ff007f;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+/* Menu Toggle Button */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.menu-toggle .bar {
+    width: 100%;
+    height: 3px;
+    background: white;
+    transition: all 0.3s ease;
+}
+
+/* Mobile Responsive Menu */
+@media (max-width: 768px) {
+    .menu {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+    }
+
+    .menu.show {
+        max-height: 300px;
+    }
+
+    .menu li {
+        text-align: center;
+        padding: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .menu-toggle {
+        display: flex;
+    }
+
+    /* Animate the toggle button */
+    .menu-toggle.active .bar:nth-child(1) {
+        transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .menu-toggle.active .bar:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-toggle.active .bar:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+}
+        :root {
+            --primary-color: #e60073;
+            --secondary-color: #ff0077;
+            --bg: radial-gradient(circle, var(--primary-color) 10%, #000 80%);
+            --text-color: #fff;
+            --card-bg: rgba(20, 20, 20, 0.9);
+            --input-bg: #000;
+        }
+
+        body[data-theme="light"] {
+            --bg: radial-gradient(circle, #ffffff 10%, #e6e6e6 80%);
+            --text-color: #000;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --input-bg: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            padding: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--primary-color));
+            opacity: 0.1;
+            z-index: -1;
+        }
+
+        .title {
+            font-size: 4rem;
+            color: var(--secondary-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .subtitle {
+            color: var(--text-color);
+            opacity: 0.9;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .content-section {
+            margin: 4rem 0;
+            padding: 2rem;
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            position: relative;
+            border: 1px solid var(--primary-color);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+
+        .section-title {
+            color: var(--secondary-color);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .game-card {
+            background: rgba(230, 0, 115, 0.1);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid var(--primary-color);
+            transition: transform 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 15px var(--secondary-color);
+        }
+
+        .game-card h3 {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        .symbols {
+            position: absolute;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid var(--primary-color);
+            top: 50%;
+            left: -100px;
+        }
+
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 100px solid transparent;
+            border-right: 100px solid transparent;
+            border-bottom: 200px solid var(--primary-color);
+            right: -50px;
+            top: 30%;
+        }
+
+        .square {
+            width: 150px;
+            height: 150px;
+            border: 4px solid var(--primary-color);
+            bottom: -75px;
+            right: 20%;
+        }
+
+        .warning {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            background: rgba(230, 0, 115, 0.1);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            color: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .content-section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    
+    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    <div class="container">
+        <header class="header">
+            <div class="symbols circle"></div>
+            <div class="symbols triangle"></div>
+            <div class="symbols square"></div>
+            <h1 class="title">SQUID GAME</h1>
+            <p class="subtitle">456 players. 6 deadly games. One ultimate prize. Enter the arena where survival is the only rule.</p>
+        </header>
+
+        <section class="content-section">
+            <h2 class="section-title">The Game</h2>
+            <div class="game-grid">
+                <div class="game-card">
+                    <h3>Origins</h3>
+                    <p>A mysterious organization invites cash-strapped contestants to play a series of children's games with deadly consequences. The last survivor wins ₩45.6 billion.</p>
+                </div>
+                <div class="game-card">
+                    <h3>Rules</h3>
+                    <p>1. Participation is voluntary<br>
+                       2. Players must obey all rules<br>
+                       3. Games may be terminated if majority agrees</p>
+                </div>
+                <div class="game-card">
+                    <h3>Consequences</h3>
+                    <p>Failure to complete a game results in immediate elimination. All decisions are final. The guards enforce order through any means necessary.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">Games</h2>
+            <div class="game-grid">
+                <div class="game-card">
+                    <h3>Red Light, Green Light</h3>
+                    <p>A colossal doll detects movement during "red light." Those caught moving face elimination.</p>
+                </div>
+                <div class="game-card">
+                    <h3>Honeycomb</h3>
+                    <p>Players must extract delicate shapes from honeycomb cookies without breaking them.</p>
+                </div>
+                <div class="game-card">
+                    <h3>Tug of War</h3>
+                    <p>Teams battle over a fatal drop. The stronger strategy determines survival.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="warning">
+            ⚠️ WARNING: Participation is irrevocable. All decisions are final. The Front Man is watching.
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            body.dataset.theme = body.dataset.theme === 'light' ? 'dark' : 'light';
+        }
+    </script>
+</body>
+</html>
